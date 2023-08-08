@@ -1,25 +1,30 @@
 const menuEmail = document.querySelector('.navbar-email');
 const burguerMenu = document.querySelector('.menu');
 const menuCarIcon = document.querySelector('.navbar-shopping-cart');
+const productDetailCloseIcon = document.querySelector('.product-detail-close')
 const desktopMenu = document.querySelector('.desktop-menu');
 const mobileMenu = document.querySelector('.mobile-menu');
-const aside = document.querySelector('.product-detail')
+const shoppingCartContainer = document.querySelector('#shoppingCartContainer')
+const productDetailContainer = document.querySelector('#productDetail')
 const cardsContainer = document.querySelector('.cards-container')
 
 menuEmail.addEventListener('click', toggledesktopMenu)
 burguerMenu.addEventListener('click', togglemobileMenu)
 menuCarIcon.addEventListener('click', toggleCarritoAside)
+productDetailCloseIcon.addEventListener('click', CloseProductDetailAside)
 
 function toggledesktopMenu() {
     desktopMenu.classList.toggle('inactive');
 }
 
 function togglemobileMenu() {
-    const isAsideClosed = aside.classList.contains('inactive');
+    const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
 
     if (!isAsideClosed){
-        aside.classList.add('inactive');
+        shoppingCartContainer.classList.add('inactive');
     }
+
+    CloseProductDetailAside();
 
     mobileMenu.classList.toggle('inactive');
 }
@@ -31,8 +36,23 @@ function toggleCarritoAside() {
         mobileMenu.classList.add('inactive');
     }
 
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
 
-    aside.classList.toggle('inactive')
+    if (!isProductDetailClosed) {
+        productDetailContainer.classList.add('inactive');
+    }
+
+
+    shoppingCartContainer.classList.toggle('inactive')
+}
+
+function openProductDetailAside() {
+    shoppingCartContainer.classList.add('inactive')
+    productDetailContainer.classList.remove('inactive')
+}
+
+function CloseProductDetailAside () {
+    productDetailContainer.classList.add('inactive')
 }
 
 const productList = [];
@@ -122,8 +142,6 @@ productList.push({
     image: 'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/d7cbef9b-eb7b-40c6-aa19-c12b52538070/calzado-air-force-1-07-D3dVCw.png',
 });
 
-
-
 function renderProducts(arr) {
     for (product of arr){
         const productCard = document.createElement('div');
@@ -131,6 +149,7 @@ function renderProducts(arr) {
     
         const productImg = document.createElement('img');
         productImg.setAttribute('src', product.image);
+        productImg.addEventListener('click', openProductDetailAside)
     
         const productInfo = document.createElement('div');
         productInfo.classList.add('product-info');
